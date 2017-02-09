@@ -66,6 +66,7 @@ define KernelPackage/$(PKG_NAME)
   TITLE:=Realtek RTL8812AU wireless USB 802.11ac driver
   DEPENDS:=@USB_SUPPORT +kmod-mac80211 +kmod-usb-core
   FILES:=$(PKG_BUILD_DIR)/8812au.ko
+  AUTOLOAD:=$(call AutoProbe,8812au)
 endef
 
 define KernelPackage/$(PKG_NAME)/description
