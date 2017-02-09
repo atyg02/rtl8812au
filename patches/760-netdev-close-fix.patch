@@ -1,5 +1,3 @@
-diff --git a/os_dep/linux/ioctl_cfg80211.c b/os_dep/linux/ioctl_cfg80211.c
-index cb7390a..8113ecf 100755
 --- a/os_dep/linux/ioctl_cfg80211.c
 +++ b/os_dep/linux/ioctl_cfg80211.c
 @@ -4104,6 +4104,8 @@ static int cfg80211_rtw_del_virtual_intf(struct wiphy *wiphy,
@@ -11,8 +9,6 @@ index cb7390a..8113ecf 100755
  exit:
         return ret;
  }
-diff --git a/os_dep/linux/os_intfs.c b/os_dep/linux/os_intfs.c
-index 7fda5b5..1a158ed 100755
 --- a/os_dep/linux/os_intfs.c
 +++ b/os_dep/linux/os_intfs.c
 @@ -1192,8 +1192,10 @@ void rtw_os_ndev_unregister(_adapter *adapter)
