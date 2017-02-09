@@ -1,0 +1,38 @@
+diff -crB org_f/ioctl_cfg80211.c mod_f/ioctl_cfg80211.c
+*** org_f/ioctl_cfg80211.c	2017-02-09 22:02:51.951933591 +0100
+--- mod_f/ioctl_cfg80211.c	2017-02-09 22:07:46.035349101 +0100
+***************
+*** 4104,4109 ****
+--- 4104,4111 ----
+  		DBG_871X(FUNC_NDEV_FMT" remove monitor interface\n", FUNC_NDEV_ARG(ndev));
+  	}
+  
++ 	if (adapter) adapter->pnetdev = NULL;
++ 
+  exit:
+  	return ret;
+  }
+diff -crB org_f/os_intfs.c mod_f/os_intfs.c
+*** org_f/os_intfs.c	2017-02-09 22:03:30.200288565 +0100
+--- mod_f/os_intfs.c	2017-02-09 22:13:12.804410633 +0100
+***************
+*** 1192,1199 ****
+  	rtw_cfg80211_ndev_res_unregister(adapter);
+  #endif
+  
+! 	if ((adapter->DriverState != DRIVER_DISAPPEAR) && netdev)
+  		unregister_netdev(netdev); /* will call netdev_close() */
+  
+  #if defined(CONFIG_IOCTL_CFG80211) && !defined(RTW_SINGLE_WIPHY)
+  	rtw_wiphy_unregister(adapter_to_wiphy(adapter));
+--- 1192,1201 ----
+  	rtw_cfg80211_ndev_res_unregister(adapter);
+  #endif
+  
+! 	if ((adapter->DriverState != DRIVER_DISAPPEAR) && netdev) {
+  		unregister_netdev(netdev); /* will call netdev_close() */
++ 		adapter->pnetdev = NULL;
++ 	}
+  
+  #if defined(CONFIG_IOCTL_CFG80211) && !defined(RTW_SINGLE_WIPHY)
+  	rtw_wiphy_unregister(adapter_to_wiphy(adapter));
