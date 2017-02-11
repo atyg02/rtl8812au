@@ -7,13 +7,12 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=rtl8812au
-PKG_VERSION:=2016-12-13
+PKG_NAME:=rtl8814au
+PKG_VERSION:=2017-02-11
 PKG_RELEASE:=$(PKG_SOURCE_VERSION)
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/diederikdehaas/rtl8812AU.git
-PKG_SOURCE_VERSION:=be67c6e7c7424004931f53bd9bf0a86d02f15bd0
+PKG_SOURCE_URL:=https://github.com/diederikdehaas/rtl8814AU.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 PKG_MAINTAINER:=DL <dl12345@github.com>
@@ -53,7 +52,7 @@ MAKE_OPTS:= \
 	KSRC="$(LINUX_DIR)" \
 	KVER="$(LINUX_VERSION)" \
 	M="$(PKG_BUILD_DIR)" \
-	MODULE_NAME="8812au" \
+	MODULE_NAME="8814au" \
 	USER_EXTRA_CFLAGS="$(USER_EXTRA_CFLAGS)" \
 	NOSTDINC_FLAGS="$(NOSTDINC_FLAGS)" \
 	KBUILD_EXTRA_SYMBOLS="${STAGING_DIR}/usr/include/mac80211/Module.symvers" \
@@ -63,13 +62,13 @@ MAKE_OPTS:= \
 
 define KernelPackage/$(PKG_NAME)
   SUBMENU:=Wireless Drivers
-  TITLE:=Realtek RTL8812AU wireless USB 802.11ac driver
+  TITLE:=Realtek RTL8814AU wireless USB 802.11ac driver
   DEPENDS:=@USB_SUPPORT +kmod-mac80211 +kmod-usb-core
-  FILES:=$(PKG_BUILD_DIR)/8812au.ko
+  FILES:=$(PKG_BUILD_DIR)/8814au.ko
 endef
 
 define KernelPackage/$(PKG_NAME)/description
- Kernel modules for the Realtek 8812AU and 8821A USB 802.11ac
+ Kernel modules for the Realtek 8814AU and 8821A USB 802.11ac
  wireless USB adapters
 endef
 
