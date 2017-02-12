@@ -1,6 +1,19 @@
---- a/core/rtw_mlme_ext.c
-+++ b/core/rtw_mlme_ext.c
-@@ -11892,7 +11892,7 @@ static void rtw_mlmeext_disconnect(_adap
+diff -ruN a/core/rtw_ap.c b/core/rtw_ap.c
+--- a/core/rtw_ap.c	2017-02-11 16:39:20.000000000 +0100
++++ b/core/rtw_ap.c	2017-02-12 23:17:45.541693142 +0100
+@@ -202,7 +202,7 @@
+ 	u8	bmatch = _FALSE;
+ 	u8	*pie = pnetwork->IEs;
+ 	u8	*p=NULL, *dst_ie=NULL, *premainder_ie=NULL, *pbackup_remainder_ie=NULL;
+-	u32	i, offset, ielen, ie_offset, remainder_ielen = 0;
++	u32	i, offset, ielen = 0, ie_offset, remainder_ielen = 0;
+ 
+ 	for (i = sizeof(NDIS_802_11_FIXED_IEs); i < pnetwork->IELength;)
+ 	{
+diff -ruN a/core/rtw_mlme_ext.c b/core/rtw_mlme_ext.c
+--- a/core/rtw_mlme_ext.c	2017-02-11 16:39:20.000000000 +0100
++++ b/core/rtw_mlme_ext.c	2017-02-12 23:19:59.965692491 +0100
+@@ -11863,7 +11863,7 @@
  
  	//set_opmode_cmd(padapter, infra_client_with_mlme);
  

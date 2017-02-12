@@ -1,6 +1,18 @@
+diff -ruN a/include/drv_types.h b/include/drv_types.h
+--- a/include/drv_types.h	2017-02-11 16:39:20.000000000 +0100
++++ b/include/drv_types.h	2017-02-12 22:08:40.933713000 +0100
+@@ -107,7 +107,7 @@
+ #include <rtw_ioctl_rtl.h>
+ #include <osdep_intf.h>
+ #include <rtw_eeprom.h>
+-#include <sta_info.h>
++#include <rtw_sta_info.h>
+ #include <rtw_event.h>
+ #include <rtw_mlme_ext.h>
+ #include <rtw_ap.h>
 diff -ruN a/include/rtw_sta_info.h b/include/rtw_sta_info.h
 --- a/include/rtw_sta_info.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/include/rtw_sta_info.h	2017-02-11 15:21:27.813230000 +0100
++++ b/include/rtw_sta_info.h	2017-02-11 16:39:20.000000000 +0100
 @@ -0,0 +1,531 @@
 +/******************************************************************************
 + *
@@ -534,7 +546,7 @@ diff -ruN a/include/rtw_sta_info.h b/include/rtw_sta_info.h
 +#endif //_STA_INFO_H_
 +
 diff -ruN a/include/sta_info.h b/include/sta_info.h
---- a/include/sta_info.h	2017-02-11 15:21:27.813230000 +0100
+--- a/include/sta_info.h	2017-02-11 16:39:20.000000000 +0100
 +++ b/include/sta_info.h	1970-01-01 01:00:00.000000000 +0100
 @@ -1,531 +0,0 @@
 -/******************************************************************************
@@ -1068,3 +1080,76 @@ diff -ruN a/include/sta_info.h b/include/sta_info.h
 -
 -#endif //_STA_INFO_H_
 -
+diff -ruN a/os_dep/linux/ioctl_cfg80211.c b/os_dep/linux/ioctl_cfg80211.c
+--- a/os_dep/linux/ioctl_cfg80211.c	2017-02-11 16:39:20.000000000 +0100
++++ b/os_dep/linux/ioctl_cfg80211.c	2017-02-12 22:16:08.913711000 +0100
+@@ -23,6 +23,14 @@
+ 
+ #ifdef CONFIG_IOCTL_CFG80211
+ 
++#include <rtw_wifi_regd.h>
++
++#ifdef BACKPORT
++#pragma push_macro("LINUX_VERSION_CODE")
++#undef LINUX_VERSION_CODE
++#define LINUX_VERSION_CODE KERNEL_VERSION(4,6,0)
++#endif
++
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 0, 0))
+ #define STATION_INFO_SIGNAL		BIT(NL80211_STA_INFO_SIGNAL)
+ #define STATION_INFO_TX_BITRATE		BIT(NL80211_STA_INFO_TX_BITRATE)
+@@ -31,7 +39,6 @@
+ #define STATION_INFO_ASSOC_REQ_IES	0
+ #endif /* Linux kernel >= 4.0.0 */
+ 
+-#include <rtw_wifi_regd.h>
+ 
+ #define RTW_MAX_MGMT_TX_CNT (8)
+ #define RTW_MAX_MGMT_TX_MS_GAS (500)
+@@ -6810,5 +6817,9 @@
+ #endif
+ }
+ 
++#ifdef BACKPORT
++#pragma pop_macro("LINUX_VERSION_CODE")
++#endif
++
+ #endif /* CONFIG_IOCTL_CFG80211 */
+ 
+diff -ruN a/os_dep/linux/rtw_cfgvendor.c b/os_dep/linux/rtw_cfgvendor.c
+--- a/os_dep/linux/rtw_cfgvendor.c	2017-02-11 16:39:20.000000000 +0100
++++ b/os_dep/linux/rtw_cfgvendor.c	2017-02-12 22:18:11.861710000 +0100
+@@ -42,6 +42,12 @@
+ 
+ #include <net/rtnetlink.h>
+ 
++#ifdef BACKPORT
++#pragma push_macro("LINUX_VERSION_CODE")
++#undef LINUX_VERSION_CODE
++#define LINUX_VERSION_CODE KERNEL_VERSION(4,6,0)
++#endif
++
+ #ifdef DBG_MEM_ALLOC
+ extern bool match_mstat_sniff_rules(const enum mstat_f flags, const size_t size);
+ struct sk_buff *dbg_rtw_cfg80211_vendor_event_alloc(struct wiphy *wiphy, int len, int event_id, gfp_t gfp
+@@ -1336,5 +1342,9 @@
+ }
+ #endif /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)) || defined(RTW_VENDOR_EXT_SUPPORT) */
+ 
++#ifdef BACKPORT
++#pragma pop_macro("LINUX_VERSION_CODE")
++#endif
++
+ #endif /* CONFIG_IOCTL_CFG80211 */
+ 
+diff -ruN a/os_dep/linux/usb_intf.c b/os_dep/linux/usb_intf.c
+--- a/os_dep/linux/usb_intf.c	2017-02-11 16:39:20.000000000 +0100
++++ b/os_dep/linux/usb_intf.c	2017-02-12 22:33:29.977706000 +0100
+@@ -209,6 +209,7 @@
+ 	{USB_DEVICE(0x0b05, 0x1817), .driver_info = RTL8814A}, /* ASUS - ASUSTeK */
+ 	{USB_DEVICE(0x056E, 0x400B), .driver_info = RTL8814A}, /* ELECOM - ELECOM */
+ 	{USB_DEVICE(0x056E, 0x400D), .driver_info = RTL8814A}, /* ELECOM - ELECOM */
++	{USB_DEVICE(0x7392, 0xA833), .driver_info = RTL8814A}, /* Edimax - Edimax */
+ 	{USB_DEVICE(0x7392, 0xA834), .driver_info = RTL8814A}, /* Edimax - Edimax */
+ #endif /* CONFIG_RTL8814A */
+ 
