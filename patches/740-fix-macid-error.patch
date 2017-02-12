@@ -9,3 +9,15 @@
  	/*
  	 * For safety, prevent from keeping macid sleep.
  	 * If we can sure all power mode enter/leave are paired,
+--- a/core/rtw_ap.c
++++ b/core/rtw_ap.c
+@@ -202,7 +202,7 @@ void rtw_add_bcn_ie(_adapter *padapter,
+ 	u8	bmatch = _FALSE;
+ 	u8	*pie = pnetwork->IEs;
+ 	u8	*p=NULL, *dst_ie=NULL, *premainder_ie=NULL, *pbackup_remainder_ie=NULL;
+-	u32	i, offset, ielen, ie_offset, remainder_ielen = 0;
++	u32	i, offset, ielen = 0, ie_offset, remainder_ielen = 0;
+ 
+ 	for (i = sizeof(NDIS_802_11_FIXED_IEs); i < pnetwork->IELength;)
+ 	{
+
